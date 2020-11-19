@@ -1,3 +1,32 @@
+
+
+* Create a Maven Project
+* Add below dependency in the POM file:
+```aidl
+ <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+    </dependencies>
+```
+* Create package under ```test.java``` with name as ```testcases```
+* Create a Test Class: ```test.java.testcases.RunTest```
+* Add test case to invoke the browser and navigate to the amazon.in web site
+* Note that ```@Test``` annotation is used to invoke the test cases. This annotation is provided to us by Junit library which we have added.
+* Also Note annotation ```@Before``` ```@After```. 
+* All the annotation which has ```@Before``` annotated method will execute before every test.
+* All the annotation which has ```@After``` annotated method will execute after every test.
+
+```aidl
 package testclasses;
 
 import org.junit.After;
@@ -39,3 +68,8 @@ public class RunTest {
     }
 
 }
+```
+
+---
+## Configure SonarQube Project
+* Sign Up to Git Hub
