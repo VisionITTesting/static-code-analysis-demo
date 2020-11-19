@@ -1,7 +1,6 @@
-
-
 # Static Code Analysis using Sonar Qube Cloud
------
+
+---
 
 #### Author:
 
@@ -79,7 +78,6 @@ public class RunTest {
         Assert.assertEquals("Page Title validation",expected,actual);
     }
 
-
     //This method will execute after the end of each @Test annotated method.
     @After
     public void clean_up(){
@@ -94,31 +92,81 @@ public class RunTest {
 * Navigate to: [https://sonarcloud.io/](https://sonarcloud.io/)
 * Click on Git Hub link
 
-![Image](Screenshot%202020-11-19%20at%207.16.32%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%207.16.32%20PM.png)
 
 * Enter your Git Hub Credentials.
-![Image](Screenshot%202020-11-19%20at%207.16.43%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%207.16.43%20PM.png)
 
 * Click on (+) sign at the Top Right (beside search box) and click on Analyze new Project
 
-![Image](Screenshot%202020-11-19%20at%207.16.56%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%207.16.56%20PM.png)
 
 * Select Organization as your username, this will list all the repo under your username of Org
 
-![Image](Screenshot%202020-11-19%20at%207.17.06%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%207.17.06%20PM.png)
 
 * Few Projects like maven project, SonarCloud is not able to automatically analyze, so we need to make use of GitHub Actions to set up Sonar Qube for our Project.
 
-![Image](Screenshot%202020-11-19%20at%209.46.49%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%209.46.49%20PM.png)
 
 * Click on  "With GitHub Actions" link
 
-![Image](Screenshot%202020-11-19%20at%207.18.23%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%207.18.23%20PM.png)
 
-* Go to Settings > Secrets in your repository and add SONAR TOKEN in Secrets
+* Go to Settings > Secrets in your repository and add SONAR_TOKEN variable in Secrets
 
-![Image](Screenshot%202020-11-19%20at%209.55.42%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%209.55.42%20PM.png)
 
-![Image](Screenshot%202020-11-19%20at%209.57.40%20PM.png)
+>![Image](Screenshot%202020-11-19%20at%209.57.40%20PM.png)
+
+* Add below lines in your POM.XML file.
+
+>![Image](Screenshot%202020-11-19%20at%2010.33.13%20PM.png)
+
+* Add Git Hub Actions, ```.github/workflows/build.yml``` and below code in the build.yml file.
+
+
+>![Image](Screenshot%202020-11-19%20at%2010.38.57%20PM.png)
+
+```aidl
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+```
+
+
 
 
