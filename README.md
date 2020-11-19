@@ -1,5 +1,24 @@
 
 
+# Static Code Analysis using Sonar Qube Cloud
+-----
+
+#### Author:
+
+Written by Akash Tyagi. You can reach me at: akashdktyagi@gmail.com
+
+-----
+####Details: 
+* Static code analysis is a very common practice among the developers. 
+* Unfortunately, not very common among Automation Test developers. 
+* Automated Static code analysis is an absolute necessity to any type of code. 
+* It identifies a lot of coding mistakes which we do and are not very aware of. 
+* There are many tools some are paid and some are open source for static code analysis. 
+* You can use SonarQube Cloud Analysis for this purpose.
+
+---
+#### Steps to Set Up
+
 * Create a Maven Project
 * Add below dependency in the POM file:
 ```aidl
@@ -71,5 +90,35 @@ public class RunTest {
 ```
 
 ---
-## Configure SonarQube Project
-* Sign Up to Git Hub
+#### Configure SonarQube Project
+* Navigate to: [https://sonarcloud.io/](https://sonarcloud.io/)
+* Click on Git Hub link
+
+![Image](Screenshot%202020-11-19%20at%207.16.32%20PM.png)
+
+* Enter your Git Hub Credentials.
+![Image](Screenshot%202020-11-19%20at%207.16.43%20PM.png)
+
+* Click on (+) sign at the Top Right (beside search box) and click on Analyze new Project
+
+![Image](Screenshot%202020-11-19%20at%207.16.56%20PM.png)
+
+* Select Organization as your username, this will list all the repo under your username of Org
+
+![Image](Screenshot%202020-11-19%20at%207.17.06%20PM.png)
+
+* Few Projects like maven project, SonarCloud is not able to automatically analyze, so we need to make use of GitHub Actions to set up Sonar Qube for our Project.
+
+![Image](Screenshot%202020-11-19%20at%209.46.49%20PM.png)
+
+* Click on  "With GitHub Actions" link
+
+![Image](Screenshot%202020-11-19%20at%207.18.23%20PM.png)
+
+* Go to Settings > Secrets in your repository and add SONAR TOKEN in Secrets
+
+![Image](Screenshot%202020-11-19%20at%209.55.42%20PM.png)
+
+![Image](Screenshot%202020-11-19%20at%209.57.40%20PM.png)
+
+
