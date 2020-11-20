@@ -14,6 +14,13 @@ Written by Akash Tyagi. You can reach me at: akashdktyagi@gmail.com
 * It identifies a lot of coding mistakes which we do and are not very aware of. 
 * There are many tools some are paid and some are open source for static code analysis. 
 * You can use SonarQube Cloud Analysis for this purpose.
+* For more on what is SAST and Code Smells refer below links:
+
+[https://www.synopsys.com/glossary/what-is-sast.html](https://www.synopsys.com/glossary/what-is-sast.html)
+
+[https://www.microfocus.com/en-us/what-is/sast](https://www.microfocus.com/en-us/what-is/sast)
+
+[https://www.geeksforgeeks.org/code-smell-a-general-introduction-and-its-type/]https://www.geeksforgeeks.org/code-smell-a-general-introduction-and-its-type/
 
 ---
 #### Steps to Set Up
@@ -221,7 +228,7 @@ Go to the project in the Sonar Qube, [My Sonar Qube Link](https://sonarcloud.io/
 > ![Image](Screenshot%202020-11-20%20at%2010.24.08%20AM.png)
 
 * Click on link "Why this is as Issue" and it will show you the mistakes you have been making.
-* Local ```driver``` variable is shadowing the instance ```driver``` variable and is considered to be Code-Smell. This is caught in the Sonar Analysis as mentioned in the screen shot.
+* For example, in below code, Local ```driver``` variable is shadowing the instance ```driver``` variable and is considered 'Code-Smell'. This is caught in the Sonar Analysis as mentioned in the screen shot.
 ```aidl
     public WebDriver GetWebDriver(String browserType){
         WebDriver driver; // This variable is shadowing the instance variable and is considered to be Code-Smell. This should be caught in the Sonar Analysis
@@ -237,11 +244,7 @@ Go to the project in the Sonar Qube, [My Sonar Qube Link](https://sonarcloud.io/
     }
 ```
 
-* So thats it folks. SonarQube is very important tool which should be leveraged to find issue with the code developer(Dev or Dev-in-Test) is writing. And it should be makde part of CI-CD pipeline.
-* For more on what is SAST refer below links:
+* So thats it folks. SonarQube is very important tool which should be leveraged to find issue with the code developer(Dev or Dev-in-Test) is writing. And it should be made part of CI-CD pipeline.
 
-[https://www.synopsys.com/glossary/what-is-sast.html](https://www.synopsys.com/glossary/what-is-sast.html)
-
-[https://www.microfocus.com/en-us/what-is/sast](https://www.microfocus.com/en-us/what-is/sast)
 
 
