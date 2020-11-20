@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import java.util.concurrent.TimeUnit;
 
 public class RunTest {
@@ -18,7 +20,7 @@ public class RunTest {
     //Since, we need to invoke Browser for every test case, we will use this annotation to have driver init steps
     @Before
     public void set_up(){
-        driver = new ChromeDriver();
+        driver = GetWebDriver("headless");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(implicit_wait_timeout_in_sec, TimeUnit.SECONDS);
     }
@@ -26,7 +28,7 @@ public class RunTest {
     @Test
     public void t_01_check_website_is_working(){
         driver.get(base_url);
-        String expected = "amazon";
+        String expected = "Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
         String actual =driver.getTitle();
         Assert.assertEquals("Page Title validation",expected,actual);
     }
@@ -38,4 +40,16 @@ public class RunTest {
         driver.quit();
     }
 
+    public WebDriver GetWebDriver(String browserType){
+        WebDriver driver;
+        if (browserType.contains("headless")){
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("headless");
+            options.addArguments("window-size=1200x600");
+            driver = new ChromeDriver(options);
+        }else{
+            driver = new ChromeDriver();
+        }
+        return driver;
+    }
 }
