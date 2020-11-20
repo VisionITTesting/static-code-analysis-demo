@@ -7,7 +7,7 @@
 Written by Akash Tyagi. You can reach me at: akashdktyagi@gmail.com
 
 -----
-####Details: 
+#### Details: 
 * Static code analysis is a very common practice among the developers. 
 * Unfortunately, not very common among Automation Test developers. 
 * Automated Static code analysis is an absolute necessity to any type of code. 
@@ -123,11 +123,25 @@ public class RunTest {
 
 >![Image](Screenshot%202020-11-19%20at%2010.33.13%20PM.png)
 
-* Add Git Hub Actions, ```.github/workflows/build.yml``` and below code in the build.yml file.
+* Add Git Hub Actions yml file in your repo. 
+>* Git Hub actions yml file is a specification file which is used to declaratively specify the CI-CD workflow for your repo. In this case we are using it for static analysis for each code push and PR on your ```master``` branch.
+>* For more on how to implement Git Hub Actions, refer my other tutorial here: [CI-CD-Impl-Using-GitHubActions](https://visionittesting.github.io/ci-github-actions-demo/)
+>* Git Hub Actions Tutorials can be found here: [GitHub Actions](https://docs.github.com/en/free-pro-team@latest/actions)
 
+* Click on ```Actions``` tab in your Git Hub Repo and click on set up Java Maven workflow.
 
->![Image](Screenshot%202020-11-19%20at%2010.38.57%20PM.png)
+> ![Image](Screenshot%202020-11-20%20at%209.26.31%20AM.png)
 
+* Above step will Create folder and file, ```.github/workflows/maven.yml``` in your repo.
+> ![Image](Screenshot%202020-11-20%20at%209.28.14%20AM.png)
+
+* Copy and paste below code in the Web Editor.
+> ![Image](Screenshot%202020-11-20%20at%209.32.02%20AM.png)
+
+> ![Image](Screenshot%202020-11-19%20at%2010.38.57%20PM.png)
+
+* Text Version of the above screen shot. Make sure you copy this code from the actual Sonar Qube generated code mentioned in above steps, where you would configure Sonar Qube Project.
+(However it is going to be exactly the same, so you can below yml spec as well)
 ```aidl
 name: Build
 on:
@@ -167,6 +181,7 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 ```
 
+* Once you have completed this
 
 
 
