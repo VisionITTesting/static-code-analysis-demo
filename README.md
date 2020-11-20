@@ -120,8 +120,24 @@ public class RunTest {
 >![Image](Screenshot%202020-11-19%20at%209.57.40%20PM.png)
 
 * Add below lines in your POM.XML file.
+Make sure to add this line as well to 
+```<sonar.inclusions>src/test/java/**,src/test/resources/**</sonar.inclusions>```
+. This will ensure that Sonar Qube will analyse your tests, which is the sole purpose of this tutorial.
 
 >![Image](Screenshot%202020-11-19%20at%2010.33.13%20PM.png)
+
+* So ideally your POM.xml properties segment should look like this below. Check the later Pom file in the repo itself.
+
+```aidl
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <sonar.projectKey>VisionITTesting_static-code-analysis-demo</sonar.projectKey>
+        <sonar.organization>visionittesting</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.inclusions>src/test/java/**,src/test/resources/**</sonar.inclusions>
+    </properties>
+```
 
 * Add Git Hub Actions yml file in your repo. 
 >* Git Hub actions yml file is a specification file which is used to declaratively specify the CI-CD workflow for your repo. In this case we are using it for static analysis for each code push and PR on your ```master``` branch.

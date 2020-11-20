@@ -14,7 +14,8 @@
         <sonar.projectKey>VisionITTesting_static-code-analysis-demo</sonar.projectKey>
         <sonar.organization>visionittesting</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.inclusions>src/test/java/**,src/test/resources/**</sonar.inclusions>
+        <sonar.test.inclusions>src/test/java/*</sonar.test.inclusions>
+        <sonar.sources>src/test</sonar.sources>
     </properties>
 
     <dependencies>
