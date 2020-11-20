@@ -1,4 +1,4 @@
-# Static Code Analysis using Sonar Qube Cloud
+# Static Code Analysis using Sonar Qube Cloud for Automation Tests
 
 ---
 
@@ -45,14 +45,14 @@ Written by Akash Tyagi. You can reach me at: akashdktyagi@gmail.com
 * All the annotation which has ```@After``` annotated method will execute after every test.
 
 ```aidl
-package testclasses;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import java.util.concurrent.TimeUnit;
 
 public class RunTest {
@@ -65,7 +65,7 @@ public class RunTest {
     //Since, we need to invoke Browser for every test case, we will use this annotation to have driver init steps
     @Before
     public void set_up(){
-        driver = new ChromeDriver();
+        driver = GetWebDriver("headless");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(implicit_wait_timeout_in_sec, TimeUnit.SECONDS);
     }
@@ -73,10 +73,11 @@ public class RunTest {
     @Test
     public void t_01_check_website_is_working(){
         driver.get(base_url);
-        String expected = "amazon";
+        String expected = "Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
         String actual =driver.getTitle();
         Assert.assertEquals("Page Title validation",expected,actual);
     }
+
 
     //This method will execute after the end of each @Test annotated method.
     @After
@@ -84,6 +85,18 @@ public class RunTest {
         driver.quit();
     }
 
+    public WebDriver GetWebDriver(String browserType){
+        WebDriver driver; // This variable is shadowing the instance variable and is considered to be Code-Smell. This should be caught in the Sonar Analysis
+        if (browserType.contains("headless")){
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("headless");
+            options.addArguments("window-size=1200x600");
+            driver = new ChromeDriver(options);
+        }else{
+            driver = new ChromeDriver();
+        }
+        return driver;
+    }
 }
 ```
 
@@ -121,12 +134,13 @@ public class RunTest {
 
 * Add below lines in your POM.XML file.
 Make sure to add this line as well to 
-```<sonar.inclusions>src/test/java/**,src/test/resources/**</sonar.inclusions>```
-. This will ensure that Sonar Qube will analyse your tests, which is the sole purpose of this tutorial.
+```<sonar.test.inclusions>src/test/java/*</sonar.test.inclusions>```
+```<sonar.sources>src/test</sonar.sources>```
+. This will ensure that Sonar Qube will analyse your tests, which is the whole and sole purpose of this tutorial.
 
 >![Image](Screenshot%202020-11-19%20at%2010.33.13%20PM.png)
 
-* So ideally your POM.xml properties segment should look like this below. Check the later Pom file in the repo itself.
+* So ideally your POM.xml properties segment should look like below. Check the latest Pom file in the repo itself.
 
 ```aidl
     <properties>
@@ -135,7 +149,8 @@ Make sure to add this line as well to
         <sonar.projectKey>VisionITTesting_static-code-analysis-demo</sonar.projectKey>
         <sonar.organization>visionittesting</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.inclusions>src/test/java/**,src/test/resources/**</sonar.inclusions>
+        <sonar.test.inclusions>src/test/java/*</sonar.test.inclusions>
+        <sonar.sources>src/test</sonar.sources>
     </properties>
 ```
 
@@ -197,7 +212,36 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 ```
 
-* Once you have completed this
+* Once you have completed this and if there is a new commit to the master branch
+Go to the project in the Sonar Qube, [My Sonar Qube Link](https://sonarcloud.io/dashboard?id=VisionITTesting_static-code-analysis-demo)
+> ![Image](Screenshot%202020-11-20%20at%2010.21.49%20AM.png)
 
+* The Sonar Cloud will track each commit and push security vulnerabilites, code smells, bugs etc.
+
+> ![Image](Screenshot%202020-11-20%20at%2010.24.08%20AM.png)
+
+* Click on link "Why this is as Issue" and it will show you the mistakes you have been making.
+* Local ```driver``` variable is shadowing the instance ```driver``` variable and is considered to be Code-Smell. This is caught in the Sonar Analysis as mentioned in the screen shot.
+```aidl
+    public WebDriver GetWebDriver(String browserType){
+        WebDriver driver; // This variable is shadowing the instance variable and is considered to be Code-Smell. This should be caught in the Sonar Analysis
+        if (browserType.contains("headless")){
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("headless");
+            options.addArguments("window-size=1200x600");
+            driver = new ChromeDriver(options);
+        }else{
+            driver = new ChromeDriver();
+        }
+        return driver;
+    }
+```
+
+* So thats it folks. SonarQube is very important tool which should be leveraged to find issue with the code developer(Dev or Dev-in-Test) is writing. And it should be makde part of CI-CD pipeline.
+* For more on what is SAST refer below links:
+
+[https://www.synopsys.com/glossary/what-is-sast.html](https://www.synopsys.com/glossary/what-is-sast.html)
+
+[https://www.microfocus.com/en-us/what-is/sast](https://www.microfocus.com/en-us/what-is/sast)
 
 
